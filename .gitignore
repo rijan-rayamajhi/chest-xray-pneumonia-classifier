@@ -1,0 +1,27 @@
+# Dataset (too large for git — see README for download instructions)
+chest_xray_data/
+
+# Virtual environments
+venv/
+venv313/
+.venv/
+
+# Trained model weights (large binary files)
+*.keras
+*.h5
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+
+# Claude Code session files
+.claude/
