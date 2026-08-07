@@ -2,11 +2,21 @@
 
 Pediatric chest radiograph (X-ray) pneumonia classification and Grad-CAM interpretability benchmark.
 
+Full manuscript available in **[PAPER.md](PAPER.md)**.
+
 This repository benchmarks 5 deep learning model architectures (`BaselineCNN`, `DenseNet121`, `ResNet50V2`, `EfficientNetB0`, `MobileNetV2`) using 95% bootstrapped confidence intervals and Grad-CAM class activation heatmaps.
 
 ---
 
-## Features
+## Paper & Preprint
+
+- **Full Paper Manuscript**: Read the complete paper draft in **[PAPER.md](PAPER.md)**.
+- **Title**: *Benchmarking Deep Convolutional Neural Networks and Grad-CAM Interpretability for Pediatric Pneumonia Diagnosis with Bootstrapped Confidence Intervals*
+- **Author**: Rijan Rayamajhi
+
+---
+
+## Key Features
 
 - **Stratified Data Split**: Re-balances combined training and validation sets (80/20 stratified split).
 - **Multi-Model Benchmark**: Evaluates Baseline CNN, DenseNet121, ResNet50V2, EfficientNetB0, and MobileNetV2.
@@ -20,6 +30,7 @@ This repository benchmarks 5 deep learning model architectures (`BaselineCNN`, `
 
 ```text
 chest-xray-pneumonia-classifier/
+├── PAPER.md                # Full academic paper preprint manuscript
 ├── src/
 │   ├── config.py           # Project settings & paths
 │   ├── dataset.py          # Dataset loading & tf.data pipeline
