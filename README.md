@@ -1,17 +1,17 @@
 # Chest X-Ray Pneumonia Classifier
 
-Pediatric chest radiograph (X-ray) pneumonia classification and Grad-CAM interpretability benchmark.
+Pediatric chest radiograph (X-ray) pneumonia classification, Grad-CAM interpretability, and FGSM adversarial robustness benchmark.
 
 Full manuscript available in **[PAPER.md](PAPER.md)**.
 
-This repository benchmarks 5 deep learning model architectures (`BaselineCNN`, `DenseNet121`, `ResNet50V2`, `EfficientNetB0`, `MobileNetV2`) using 95% bootstrapped confidence intervals and Grad-CAM class activation heatmaps.
+This repository benchmarks 5 deep learning model architectures (`BaselineCNN`, `DenseNet121`, `ResNet50V2`, `EfficientNetB0`, `MobileNetV2`) using 95% bootstrapped confidence intervals, Grad-CAM class activation heatmaps, and Fast Gradient Sign Method (FGSM) adversarial robustness analysis.
 
 ---
 
 ## Paper & Preprint
 
 - **Full Paper Manuscript**: Read the complete paper draft in **[PAPER.md](PAPER.md)**.
-- **Title**: *Benchmarking Deep Convolutional Neural Networks and Grad-CAM Interpretability for Pediatric Pneumonia Diagnosis with Bootstrapped Confidence Intervals*
+- **Title**: *Benchmarking Deep Convolutional Neural Networks, Grad-CAM Interpretability, and Adversarial FGSM Robustness for Pediatric Pneumonia Diagnosis*
 - **Author**: Rijan Rayamajhi
 
 ---
@@ -22,6 +22,7 @@ This repository benchmarks 5 deep learning model architectures (`BaselineCNN`, `
 - **Multi-Model Benchmark**: Evaluates Baseline CNN, DenseNet121, ResNet50V2, EfficientNetB0, and MobileNetV2.
 - **Statistical Evaluation**: Calculates Accuracy, Sensitivity, Specificity, Precision, ROC-AUC, and F1-Weighted metrics with 95% bootstrapped confidence intervals ($N=500$).
 - **Grad-CAM Explainability**: Visualizes model attention heatmaps to inspect feature focus.
+- **Adversarial FGSM Robustness**: Formulates Fast Gradient Sign Method ($\epsilon \in [0.0, 0.05]$) attacks to quantify diagnostic degradation and Grad-CAM attention map distortion under gradient noise.
 - **Checkpoint Caching**: Caches trained `.keras` model weights in `outputs/models/`.
 
 ---
@@ -31,16 +32,18 @@ This repository benchmarks 5 deep learning model architectures (`BaselineCNN`, `
 ```text
 chest-xray-pneumonia-classifier/
 ├── PAPER.md                # Full academic paper preprint manuscript
+├── evaluate_adversarial.py # FGSM adversarial robustness evaluation script
 ├── src/
 │   ├── config.py           # Project settings & paths
 │   ├── dataset.py          # Dataset loading & tf.data pipeline
 │   ├── models.py           # Model definitions
 │   ├── trainer.py          # Training & fine-tuning logic
 │   ├── metrics.py          # Metric & CI calculations
-│   └── explainability.py   # Grad-CAM visualization
+│   ├── explainability.py   # Grad-CAM visualization
+│   └── adversarial.py      # FGSM attack & robustness engine
 ├── outputs/
 │   ├── models/             # Saved model checkpoints
-│   ├── figures/            # ROC/PR plots & Grad-CAM grids
+│   ├── figures/            # ROC/PR plots, Grad-CAM grids, & FGSM curves
 │   └── tables/             # Benchmark tables (CSV & TeX)
 ├── run_experiments.py      # Benchmark runner script
 ├── predict.py              # Single-image prediction CLI
@@ -65,11 +68,17 @@ Evaluated on test set ($N=624$) with 95% bootstrapped confidence intervals:
 
 ## Visual Outputs
 
-### ROC and Precision-Recall Curves
+### 1. ROC and Precision-Recall Curves
 ![ROC and PR Curves Comparison](outputs/figures/roc_pr_curves_comparison.png)
 
-### Grad-CAM Explainability Grid
+### 2. Grad-CAM Explainability Grid
 ![Grad-CAM Explainability Grid](outputs/figures/gradcam_explainability_grid.png)
+
+### 3. FGSM Adversarial Robustness Degradation
+![FGSM Robustness Degradation](outputs/figures/fgsm_robustness_degradation.png)
+
+### 4. Grad-CAM Attention Shift Under Attack
+![Grad-CAM Shift Under Attack](outputs/figures/fgsm_gradcam_shift.png)
 
 ---
 
@@ -81,9 +90,14 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Run Benchmark
+### Run Benchmark Suite
 ```bash
 python run_experiments.py
+```
+
+### Run Adversarial Robustness Evaluation
+```bash
+python evaluate_adversarial.py
 ```
 
 ### Run Single Prediction
